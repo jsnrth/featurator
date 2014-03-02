@@ -73,11 +73,20 @@ features.run(:wat) do |runner|
 end
 
 
-# Will raise a Featurator::UnhandledOption error
+# Unhandled options are ignored by default
 features.run(:wat) { :nothing }
 
 
+# Will raise a Featurator::UnhandledOption error when all options are enforced
 features.run(:wat) do |runner|
+  runner.enforce_all_options!
+end
+
+
+# Option enforcement can also fall into an #on_error handler instead of blowing
+# up outside the feature block
+features.run(:wat) do |runner|
+  runner.enforce_all_options!
   runner.on_error { |error|
     # Error will be a Featurator::UnhandledOption because an #on_default handler
     # was not provided

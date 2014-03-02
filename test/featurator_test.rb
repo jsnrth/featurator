@@ -51,17 +51,33 @@ class FeaturatorTest < Minitest::Spec
       end
     end
 
-    specify 'yields to an #on_error handler' do
+    specify 'yields to an #on_error handler for errors' do
+      assert_output('rescued: wat!?') do
+        Featurator.new(foo: :A).run(:foo) do |runner|
+          runner.on(:A) { raise 'wat!?' }
+          runner.on_error { |error| print "rescued: #{error.message}" }
+        end
+      end
+    end
+
+    specify 'ignores unhandled options by default' do
+      assert_nil Featurator.new(foo: :Q).run(:foo) { :nothing }
+    end
+
+    specify 'yields to an #on_error handler for unhandled options' do
       assert_output('unhandled feature option: :Q') do
         Featurator.new(foo: :Q).run(:foo) do |runner|
+          runner.enforce_all_options!
           runner.on_error { |error| print error.message }
         end
       end
     end
 
-    specify 'raises an unhandled error' do
+    specify 'raises an unhandled error when forced' do
       assert_raises(Featurator::UnhandledOption, 'unhandled feature option: :Q') do
-        Featurator.new(foo: :Q).run(:foo) { |runner| :nothing }
+        Featurator.new(foo: :Q).run(:foo) do |runner|
+          runner.enforce_all_options!
+        end
       end
     end
   end
