@@ -102,3 +102,12 @@ features.run(:nope) { :nothing }
 ## Installation
 
     TODO
+
+## Thanks
+
+Credit where it's due -- a lot of these ideas came out of Dave Copeland's "Weird
+Ruby" talk from last year. It's worth watching if you haven't done so already.
+
+[Eliminating branching, nil and attributes - let's get weird](http://www.confreaks.com/videos/2897-rubyconf2013-eliminating-branching-nil-and-attributes-let-s-get-weird)
+
+[davetron5000/weird-ruby](https://github.com/davetron5000/weird-ruby)
