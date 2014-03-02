@@ -93,7 +93,9 @@ features.run(:wat) do |runner|
   }
 end
 
-# Will raise a Featurator::FeatureNotDefined error
+# Will raise a Featurator::FeatureNotDefined error -- I think it still makes
+# sense to blow up if an undefined feature is run. I would find it surprising
+# if something like that were ignored.
 features.run(:nope) { :nothing }
 ```
 
